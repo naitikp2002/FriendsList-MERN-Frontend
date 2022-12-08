@@ -39,6 +39,12 @@ const FormPage = () => {
       });
     setFriendsInfo({ name: "", age: 0, description: "" });
   };
+
+  const updateFriend=(id)=>{
+    const newAge = prompt("Enter New Age: ");
+    axios.put("http://localhost:3001/update", { newAge: newAge, id: id});
+  }
+
   useEffect(() => {
     axios
       .get("http://localhost:3001/read", {
@@ -135,7 +141,7 @@ const FormPage = () => {
                   <td>{i.name}</td>
                   <td>{i.age}</td>
                   <td>{i.description}</td>
-                  <td><button className="btn btn-primary">Update</button></td>
+                  <td><button className="btn btn-primary" onClick={()=>{ updateFriend(i._id)}}>Update</button></td>
                   <td><button className="btn btn-danger">Delete</button></td>
                 </tr>
               </tbody>
