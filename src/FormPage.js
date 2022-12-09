@@ -23,7 +23,7 @@ const FormPage = () => {
     console.log(FriendsInfo);
     axios
       .post(
-        "http://localhost:3001/addfriend",
+        "https://friendslist.onrender.com/addfriend",
         {
           name: FriendsInfo.name,
           age: FriendsInfo.age,
@@ -47,7 +47,7 @@ const FormPage = () => {
   const updateFriend = (id) => {
     const newAge = prompt("Enter New Age: ");
     axios
-      .put("http://localhost:3001/update", { newAge: newAge, id: id })
+      .put("https://friendslist.onrender.com/update", { newAge: newAge, id: id })
       .then(() => {
         setData(
           data.map((val) => {
@@ -65,7 +65,7 @@ const FormPage = () => {
   };
 
   const deleteFriend = (id) => {
-    axios.delete(`http://localhost:3001/delete${id}`).then(() => {
+    axios.delete(`https://friendslist.onrender.com/delete${id}`).then(() => {
       setData(
         data.filter((val) => {
           return val._id !== id;
@@ -76,7 +76,7 @@ const FormPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/read", {
+      .get("https://friendslist.onrender.com/read", {
         name: FriendsInfo.name,
         age: FriendsInfo.age,
         description: FriendsInfo.description,
