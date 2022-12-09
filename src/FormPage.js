@@ -4,7 +4,7 @@ import axios from "axios";
 
 // import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Table from "./Table";
+// import Table from "./Table";
 
 const FormPage = () => {
   //   const notify = () => toast("Success");
@@ -22,32 +22,57 @@ const FormPage = () => {
     event.preventDefault();
     console.log(FriendsInfo);
     axios
-      .post("http://localhost:3001/addfriend", {
-        name: FriendsInfo.name,
-        age: FriendsInfo.age,
-        description: FriendsInfo.description,
-      })
-      .than(() => {
+      .post(
+        "http://localhost:3001/addfriend",
+        {
+          name: FriendsInfo.name,
+          age: FriendsInfo.age,
+          description: FriendsInfo.description,
+        },
+        setFriendsInfo({ name: "", age: 0, description: "" })
+      )
+      .then((response) => {
         setData([
           ...data,
           {
+            _id: response.data._id,
             name: FriendsInfo.name,
             age: FriendsInfo.age,
-            description: FriendsInfo.description,
-          },
+            description: FriendsInfo.description
+          }
         ]);
       });
-    setFriendsInfo({ name: "", age: 0, description: "" });
   };
 
-  const updateFriend=(id)=>{
+  const updateFriend = (id) => {
     const newAge = prompt("Enter New Age: ");
-    axios.put("http://localhost:3001/update", { newAge: newAge, id: id}).then(()=>{
-        setData(data.map((val)=>{
-            return val._id === id ? {_id: id, name: val.name, age: newAge, description: val.description} : val;
-        }))
+    axios
+      .put("http://localhost:3001/update", { newAge: newAge, id: id })
+      .then(() => {
+        setData(
+          data.map((val) => {
+            return val._id === id
+              ? {
+                  _id: id,
+                  name: val.name,
+                  age: newAge,
+                  description: val.description,
+                }
+              : val;
+          })
+        );
+      });
+  };
+
+  const deleteFriend = (id) => {
+    axios.delete(`http://localhost:3001/delete${id}`).then(() => {
+      setData(
+        data.filter((val) => {
+          return val._id !== id;
+        })
+      );
     });
-  }
+  };
 
   useEffect(() => {
     axios
@@ -145,8 +170,26 @@ const FormPage = () => {
                   <td>{i.name}</td>
                   <td>{i.age}</td>
                   <td>{i.description}</td>
-                  <td><button className="btn btn-primary" onClick={()=>{ updateFriend(i._id)}}>Update</button></td>
-                  <td><button className="btn btn-danger">Delete</button></td>
+                  <td>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        updateFriend(i._id);
+                      }}
+                    >
+                      Update
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        deleteFriend(i._id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             ))}
