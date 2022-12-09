@@ -42,7 +42,11 @@ const FormPage = () => {
 
   const updateFriend=(id)=>{
     const newAge = prompt("Enter New Age: ");
-    axios.put("http://localhost:3001/update", { newAge: newAge, id: id});
+    axios.put("http://localhost:3001/update", { newAge: newAge, id: id}).then(()=>{
+        setData(data.map((val)=>{
+            return val._id === id ? {_id: id, name: val.name, age: newAge, description: val.description} : val;
+        }))
+    });
   }
 
   useEffect(() => {
