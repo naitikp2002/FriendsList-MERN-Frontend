@@ -88,7 +88,7 @@ const FormPage = () => {
       .catch(() => {
         console.log("err");
       });
-  }, [FriendsInfo]);
+  }, []);
   return (
     <>
       <div className="container-lg" style={{ minWidth: "50vw" }}>
