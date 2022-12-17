@@ -7,6 +7,7 @@ function App() {
     <div className="App">
       <h1 class="text-monospace">Friends List</h1>
       <FormPage/>
+      {/* <FormPage/> */}
     </div>
   );
 }
